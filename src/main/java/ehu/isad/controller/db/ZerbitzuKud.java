@@ -32,6 +32,7 @@ public class ZerbitzuKud {
                 System.out.println(kodea + ":" + izena);
                 emaitza.add(izena);
 
+
             }
         } catch(SQLException throwables){
             throwables.printStackTrace();
@@ -39,4 +40,21 @@ public class ZerbitzuKud {
 
         return emaitza;
     }
+
+    public void ezabatuHautatutakoa(String aukera){
+
+        String query = "delete from zerbitzuak.services WHERE izena ='" + aukera + "';";
+        DBKudeatzaile dbKudeatzaile = DBKudeatzaile.getInstantzia();
+        ResultSet rs = dbKudeatzaile.execSQL(query);
+
+    }
+
+    public void gehitu(String aukera){
+
+        String query = "insert into zerbitzuak.services(izena) Values('"  + aukera + "');";
+        DBKudeatzaile dbKudeatzaile = DBKudeatzaile.getInstantzia();
+        ResultSet rs = dbKudeatzaile.execSQL(query);
+
+    }
+
 }
