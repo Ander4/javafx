@@ -32,7 +32,14 @@ public class liburuKud implements Initializable {
         Book book = (Book)hautatuCombo.getValue();
         Sarea sare = new Sarea();
         Book liburua= sare.readFromUrl(book.getIsbn());
+        Book lib = mainApp.setLiburua(liburua);
         mainApp.xehetasunakErakutsi(liburua.getDetails().getTitle(),liburua.getDetails().getPublishers(),liburua.getDetails().getPages());
+
+    }
+
+    public Book liburua(){
+
+        return this.hautatuCombo.getValue();
 
     }
 

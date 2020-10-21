@@ -21,6 +21,7 @@ public class Liburuak extends Application {
     private xehetasunakKud xehetasunakKud;
     private Scene sceneLib;
     private Scene sceneXe;
+    private Book liburua;
 
 
     @Override
@@ -49,15 +50,27 @@ public class Liburuak extends Application {
         xehetasunakKud.setMainApp(this);
     }
 
+    public Book setLiburua(Book lib){
+
+        return liburua=lib;
+
+    }
+
+    public Book getLiburua(){
+
+        return this.liburua;
+
+    }
 
     public static void main(String[] args) {
         launch(args);
     }
 
-    public void xehetasunakErakutsi(String pIzenburua, String pArgitaletxea, String pOrri) {
+    public void xehetasunakErakutsi(String pIzenburua, String pArgitaletxea, String pOrri) throws IOException {
         xehetasunakKud.setIzenbLabel(pIzenburua);
         xehetasunakKud.setArgiLabel(pArgitaletxea);
         xehetasunakKud.setOrriLabel(pOrri);
+        xehetasunakKud.setIrudiView();
         stage.setScene(sceneXe);
         stage.show();
     }
