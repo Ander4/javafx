@@ -1,7 +1,7 @@
 package ehu.isad;
 
-import ehu.isad.controller.liburuKud;
-import ehu.isad.controller.xehetasunakKud;
+import ehu.isad.controllers.liburuKud;
+import ehu.isad.controllers.xehetasunakKud;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
