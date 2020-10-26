@@ -2,6 +2,8 @@ package ehu.isad.controllers.ui;
 
 import ehu.isad.Book;
 import ehu.isad.Liburuak;
+import ehu.isad.controllers.db.ZerbitzuKud;
+import ehu.isad.utils.Sarea;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class xehetasunakKud {
@@ -54,22 +57,53 @@ public class xehetasunakKud {
 
     }
 
-    public void setArgiLabel(String pArgitaletxe) {
+    public void setArgiLabel(Book lib) throws SQLException, IOException {
+        //this.argiLabel.setText(pArgitaletxe);
+
+        String pArgitaletxe;
+        if (ZerbitzuKud.getInstance().badagoDBan("argitaletxea",lib.getIsbn())){
+
+            pArgitaletxe = ZerbitzuKud.getInstance().lortu("argitaletxea",lib.getIsbn());
+
+        }else{
+
+            Sarea sare = new Sarea();
+            Book liburua= sare.readFromUrl(lib.getIsbn());
+            pArgitaletxe = liburua.getDetails().getPublishers();
+            ZerbitzuKud.getInstance().gehituArgitaletxea(pArgitaletxe,lib.getIsbn());
+
+        }
+
         this.argiLabel.setText(pArgitaletxe);
 
     }
 
-    public void setOrriLabel(String pOrri){
+    public void setOrriLabel(Book lib) throws IOException, SQLException {
+
+        String pOrri;
+        if (ZerbitzuKud.getInstance().badagoDBan("orriKop",lib.getIsbn())){
+
+            pOrri = ZerbitzuKud.getInstance().lortu("orriKop",lib.getIsbn());
+
+        }else{
+
+            Sarea sare = new Sarea();
+            Book liburua= sare.readFromUrl(lib.getIsbn());
+            pOrri = liburua.getDetails().getPages();
+            ZerbitzuKud.getInstance().gehituOrriKop(pOrri,lib.getIsbn());
+
+        }
         this.orriLabel.setText(pOrri);
+
     }
 
-    public void setIrudiView() throws IOException {
+    public void setIrudiView(Book lib) throws IOException {
 
-        Book lib = this.mainApp.getLiburua();
-        String irudi = lib.getThumbnail_url();
+        Sarea sare = new Sarea();
+        Book liburua= sare.readFromUrl(lib.getIsbn());
+        String irudi = liburua.getThumbnail_url();
         irudi=irudi.replace("-S","-M");
         this.irudiView.setImage(createImage(irudi));
-
 
     }
 

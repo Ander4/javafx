@@ -49,11 +49,38 @@ public class ZerbitzuKud {
 
     }
 
-    public void gehitu(String aukera){
+    public void gehituOrriKop(String aukera, String isbn){
 
-        String query = "insert into zerbitzuak.services(izena) Values('"  + aukera + "');";
+        String query = "UPDATE liburua SET orriKop="+aukera+" WHERE isbn="+isbn;
         DBKudeatzaile dbKudeatzaile = DBKudeatzaile.getInstantzia();
         ResultSet rs = dbKudeatzaile.execSQL(query);
+
+    }
+
+    public void gehituArgitaletxea(String aukera, String isbn){
+
+        String query = "UPDATE liburua SET argitaletxea=\""+aukera+"\" WHERE isbn="+isbn;
+        DBKudeatzaile dbKudeatzaile = DBKudeatzaile.getInstantzia();
+        ResultSet rs = dbKudeatzaile.execSQL(query);
+
+    }
+
+    public boolean badagoDBan(String zutabe, String isbn) throws SQLException {
+
+        String query = "SELECT \"" + zutabe + "\" FROM liburua WHERE isbn= "+ isbn+ " AND "+zutabe+" is not NULL";
+        DBKudeatzaile dbKudeatzaile = DBKudeatzaile.getInstantzia();
+        ResultSet rs = dbKudeatzaile.execSQL(query);
+        return rs.next();
+
+    }
+
+    public String lortu(String zutabe, String isbn) throws SQLException {
+
+        String query = "SELECT " + zutabe + " FROM liburua WHERE isbn= "+ isbn;
+        DBKudeatzaile dbKudeatzaile = DBKudeatzaile.getInstantzia();
+        ResultSet rs = dbKudeatzaile.execSQL(query);
+        rs.next();
+        return rs.getString(zutabe);
 
     }
 

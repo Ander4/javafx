@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class Liburuak extends Application {
 
@@ -66,11 +67,11 @@ public class Liburuak extends Application {
         launch(args);
     }
 
-    public void xehetasunakErakutsi(String pIzenburua, String pArgitaletxea, String pOrri) throws IOException {
-        xehetasunakKud.setIzenbLabel(pIzenburua);
-        xehetasunakKud.setArgiLabel(pArgitaletxea);
-        xehetasunakKud.setOrriLabel(pOrri);
-        xehetasunakKud.setIrudiView();
+    public void xehetasunakErakutsi(Book lib) throws IOException, SQLException {
+        xehetasunakKud.setIzenbLabel(lib.getTitle());
+        xehetasunakKud.setArgiLabel(lib);
+        xehetasunakKud.setOrriLabel(lib);
+        xehetasunakKud.setIrudiView(lib);
         stage.setScene(sceneXe);
         stage.show();
     }

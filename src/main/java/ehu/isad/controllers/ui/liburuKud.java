@@ -14,6 +14,7 @@ import javafx.util.StringConverter;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class liburuKud implements Initializable {
@@ -27,13 +28,13 @@ public class liburuKud implements Initializable {
     private Button ikusiBotoi;
 
     @FXML
-    void onClick(ActionEvent event) throws IOException {
+    void onClick(ActionEvent event) throws IOException, SQLException {
 
-        Book book = (Book)hautatuCombo.getValue();
-        Sarea sare = new Sarea();
-        Book liburua= sare.readFromUrl(book.getIsbn());
-        Book lib = mainApp.setLiburua(liburua);
-        mainApp.xehetasunakErakutsi(liburua.getDetails().getTitle(),liburua.getDetails().getPublishers(),liburua.getDetails().getPages());
+        Book book = hautatuCombo.getValue();
+//        Sarea sare = new Sarea();
+//        Book liburua= sare.readFromUrl(book.getIsbn());
+//        Book lib = mainApp.setLiburua(liburua);
+        mainApp.xehetasunakErakutsi(book);
 
     }
 
