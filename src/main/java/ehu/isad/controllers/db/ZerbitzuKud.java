@@ -65,9 +65,17 @@ public class ZerbitzuKud {
 
     }
 
+    public void gehituLiburua(String irudi, String isbn){
+
+        String query = "UPDATE liburua SET irudia=\""+irudi+"\" WHERE isbn="+isbn;
+        DBKudeatzaile dbKudeatzaile = DBKudeatzaile.getInstantzia();
+        ResultSet rs = dbKudeatzaile.execSQL(query);
+
+    }
+
     public boolean badagoDBan(String zutabe, String isbn) throws SQLException {
 
-        String query = "SELECT \"" + zutabe + "\" FROM liburua WHERE isbn= "+ isbn+ " AND "+zutabe+" is not NULL";
+        String query = "SELECT " + zutabe + " FROM liburua WHERE isbn= "+ isbn+ " AND "+zutabe+" is not NULL";
         DBKudeatzaile dbKudeatzaile = DBKudeatzaile.getInstantzia();
         ResultSet rs = dbKudeatzaile.execSQL(query);
         return rs.next();

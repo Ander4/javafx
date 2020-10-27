@@ -4,6 +4,7 @@ import ehu.isad.Book;
 import ehu.isad.Liburuak;
 import ehu.isad.controllers.db.ZerbitzuKud;
 import ehu.isad.utils.Sarea;
+import ehu.isad.utils.Utils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,7 +17,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.SQLException;
+import java.util.Properties;
 import java.util.ResourceBundle;
 
 public class xehetasunakKud {
@@ -97,13 +101,36 @@ public class xehetasunakKud {
 
     }
 
-    public void setIrudiView(Book lib) throws IOException {
+    public void setIrudiView(Book lib) throws IOException, SQLException {
 
-        Sarea sare = new Sarea();
-        Book liburua= sare.readFromUrl(lib.getIsbn());
-        String irudi = liburua.getThumbnail_url();
-        irudi=irudi.replace("-S","-M");
+        String irudi;
+        if (ZerbitzuKud.getInstance().badagoDBan("irudia",lib.getIsbn())){
+
+            String argazki = ZerbitzuKud.getInstance().lortu("irudia",lib.getIsbn());
+            Properties properties= Utils.lortuEzarpenak();
+            String path="file:///"+properties.getProperty("imagePath")+argazki;
+            irudi=path;
+
+        }else {
+            Sarea sare = new Sarea();
+            Book liburua = sare.readFromUrl(lib.getIsbn());
+            irudi = liburua.getThumbnail_url();
+            irudi = irudi.replace("-S", "-M");
+            this.gordeIrudia(irudi,lib);
+            ZerbitzuKud.getInstance().gehituLiburua(lib.getTitle()+".jpg",lib.getIsbn());
+
+
+        }
         this.irudiView.setImage(createImage(irudi));
+
+    }
+
+    private void gordeIrudia(String url,Book lib) throws IOException {
+        String izena=lib.getTitle();
+        Properties properties= Utils.lortuEzarpenak();
+        String path=properties.getProperty("imagePath")+izena+".jpg";
+        try(InputStream in = new URL(url).openStream()){
+            Files.copy(in, Paths.get(path));}
 
     }
 
